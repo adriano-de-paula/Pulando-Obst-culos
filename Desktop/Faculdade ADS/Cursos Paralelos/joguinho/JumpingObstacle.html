@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+    <head>
+        <meta charset="utf-8">
+        <title>..:: Jumping Obstacle ::..</title>
+        <link rel="stylesheet" href="css.css">
+    </head>
+    <body>
+        <header>
+            <h1>Jogo Pulando Obstáculos</h1>
+        </header>
+        <nav>
+            <p><b>Comandos: </b></p>
+            <p>Seta para Cima = Pular</p>
+        </nav>
+        <main>
+            <canvas id="tela" width="640" height="480"></canvas>
+
+            <script>
+                var canvas, context, speed, acceleration, gravity, jumping = false;
+			    var score = 0;
+			    var crash = 0;
+
+                canvas = document.getElementById("tela");
+                context = canvas.getContext("2d");
+
+                speed = 5;
+			    acceleration = 4;
+			    gravity = 0.2;
+
+                speedObstacle = Math.floor((Math.random() * 8) + 3);
+
+                //Dados do quadrado vermelho
+                var x_red = 80;
+                var y_red = 220;
+                var width_red = 40;
+                var heigth_red = 40;
+			
+                //Dados do quadrado preto
+                var x_black = 640;
+                var y_black = 220;
+                var width_black = 40;
+                var height_black = 40;
+
+                var id_interval = window.setInterval('gameloop()', 10); //executa o gameloop a cada 10 milissegundos
+			    window.addEventListener("keydown", jump, false);
+
+                function jump(e){
+				    jumping = true;
+			    }
+
+                function collision(){
+                    if(((x_red + width_red) > x_black && x_red < (x_black + width_black)) &&
+                    ((y_red + heigth_red) > y_black && y_red < (y_black + height_black))){
+                        crash = 1;
+                        window.clearInterval(id_interval); //interrompe o game loop parando a movimentação do quadrado vermelho
+					    alert("F I M   D E   J O G O ! ! ! ");	
+                    }
+                }
+
+                function hurdles(){
+                    //Definindo a cor preta
+                    context.fillStyle = "black";
+                    context.fillRect(x_black, y_black, width_black, height_black); //quadrado preto
+                    x_black = x_black - speedObstacle;
+
+                    if(x_black <= 0){
+                        x_black = 640;
+                        speedObstacle = Math.floor((Math.random() * 10) + 5);
+
+                        if(crash == 0){
+                            score = score + speedObstacle;
+                            document.getElementById("pontos").innerHTML = score;
+                        }
+                    }
+                }
+
+                function gameloop(){
+                    context.clearRect(0, 0, 640, 480); //limpa todo o Canvas
+
+                    //Definindo a cor vermelha
+                    context.fillStyle = "red";
+                    context.fillRect(x_red, y_red, width_red, heigth_red); //quadrado vermelho
+
+                    context.fillStyle = "green";
+                    context.fillRect(0, 260, 640, 1);  //linha verde
+
+                    if(jumping){
+                        y_red = y_red - (speed * acceleration);
+                        acceleration = acceleration - gravity;
+
+                        if(y_red >= 220){
+                            y_red = 220;
+                            jumping = false;
+                            acceleration = 4;
+                        }
+                    }
+
+                    hurdles();
+                    collision();
+                }
+            </script>
+        </main>
+        <aside>
+            <p>Pontos:<div id="pontos">0</div></p>
+        </aside>
+        <footer>
+            <h2>Este jogo foi desenvolvido por Adriano de Paula</h2>
+        </footer>
+    </body>
+
+</html>

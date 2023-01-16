@@ -1,0 +1,46 @@
+h1, h2{
+    text-align: center;
+}
+
+body {
+    display: grid;
+    grid-template-columns: 2fr 8fr 2fr;
+    grid-template-rows: auto;
+    grid-template-areas: "cabecalho cabecalho cabecalho" "esq centro dir" "rodape rodape rodape";
+    /* Adiciona cores ao elementos */
+    color: white;
+    /* Adiciona um gap (distância) entre as linhas do GRID*/
+    row-gap: 10px;
+    /* Adiciona um gap (distância) entre as colunas do GRID*/
+    column-gap: 20px;
+}
+
+body>header {
+    grid-area: cabecalho;
+    /* Adiciona cores ao elementos */
+    background-color: #0c0e23;
+}
+
+nav {
+    grid-area: esq;
+    text-align: center;
+    /* Adiciona cores ao elementos */
+    background-color: #5661f7;
+}
+
+main {
+    grid-area: centro;
+}
+
+aside {
+    grid-area: dir;
+    text-align: center;
+    /* Adiciona cores ao elementos */
+    background-color: #5661f7;
+}
+
+body>footer {
+    grid-area: rodape;
+    /* Adiciona cores ao elementos */
+    background-color:  #0c0e23;
+}
